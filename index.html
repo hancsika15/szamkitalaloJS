@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Random szám</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Tipp</h2>
+        <div class="tipp">
+            <input type="number" name="tipp" id="tipp">
+            <button id="guess">Tippelek!</button>
+        </div>
+        <div class="scroll">
+            <h4 id="result">Tippek:</h4>
+            <ul id="tippek"></ul>
+        </div>
+        <div id="nwGame">
+            <button>Új játék!</button>
+        </div>
+    </div>
+
+    <script>
+        let tippek = [];
+        let random = Math.floor(Math.random() * 100) + 1;
+        console.log(`Random: ${random}`)
+
+        document.getElementById("guess").addEventListener("click", Guess)
+        document.getElementById("nwGame").addEventListener("click", NewGame)
+
+        function Guess() {
+            let tipp = parseInt(document.getElementById("tipp").value)
+
+            if (isNaN(tipp) || tipp > 100 || tipp < 0) {
+                document.getElementById("result").innerHTML = "Szám érvénytelen. Kérlek 0 és 100 között számot adj meg."
+            }
+            else {
+                if (tipp > random) {
+                    document.getElementById("result").innerHTML = "Túl nagy!"
+                    tipp = parseInt(document.getElementById("tipp").value)
+                    document.getElementById("tipp").value = "";
+                    tippek.push(tipp);
+                }
+                else if (tipp < random) {
+                    document.getElementById("result").innerHTML = "Túl kicsi!"
+                    tipp = parseInt(document.getElementById("tipp").value)
+                    document.getElementById("tipp").value = "";
+                    tippek.push(tipp);
+                }
+                else if (tipp == random) {
+                    document.getElementById("result").innerHTML = `Eltaláltad! ${tippek.length} tipped volt`;
+                }
+
+                console.log(`Tippek tömb: ${tippek}`)
+                console.log(`Tipp: ${tipp}`)
+
+                let lista = document.getElementById("tippek")
+                const li = document.createElement("li");
+                li.textContent = tipp;
+                lista.appendChild(li);
+            }
+        }
+
+        function NewGame() {
+            console.log("fut")
+            tippek.length = 0;
+            document.getElementById("tipp").value = "";
+            document.getElementById("result").innerHTML = "Tippek:";
+            document.getElementById("tippek").innerHTML = "";
+        }
+    </script>
+
+</body>
+
+</html>
